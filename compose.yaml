@@ -1,0 +1,31 @@
+version: '3.8'
+
+services:
+  go-app:
+    build: .
+    ports:
+      - "8000:8000"
+    environment:
+      - HOST=db
+      - USER=postgres
+      - PASSWD=password
+      - DBNAME=postgres
+    depends_on:
+      - db
+    volumes:
+      - ./uploads:/app/uploads
+
+  db:
+    image: postgres
+    environment:
+      POSTGRES_PASSWORD: password
+      POSTGRES_USER: postgres
+      POSTGRES_DB: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - database:/var/lib/postgresql/data
+
+volumes:
+  uploads:
+  database:
